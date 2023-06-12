@@ -14,7 +14,7 @@ import { Report } from './reports/report.entity';
     type: 'sqlite',
     database: 'db.sqlite',
     entities: [User, Report],
-    synchronize: true
+    synchronize: true // Only for development, realize a migration of your db automaticly
   }), UsersModule, ReportsModule],
   controllers: [AppController],
   providers: [AppService],
