@@ -8,14 +8,19 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { plainToClass } from 'class-transformer';
 
+// The DTO'S Should be a class
+interface ClassConstructor {
+    new (...args: any[]): {}
+}
+
 // Decorator
-export function Serialize(dto: any) {
+export function Serialize(dto: ClassConstructor) {
     return UseInterceptors(new SerializeInterceptor(dto))
 }
 
 // Interceptor Decorator
 export class SerializeInterceptor implements NestInterceptor {
-    constructor(private dto: any) {} // Based on DTO instanced
+    constructor(private dto: ClassConstructor) {} // Based on DTO instanced
 
     intercept(context: ExecutionContext, handler: CallHandler): Observable<any> {
         // Run before a request is handled

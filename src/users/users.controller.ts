@@ -21,6 +21,7 @@ import { UserDto } from './dtos/user.dto';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 
 @Controller('auth')
+@Serialize(UserDto) // Intercept Decorator
 export class UsersController {
     constructor(private userService: UsersService) {} // DI
 
@@ -29,7 +30,6 @@ export class UsersController {
         return this.userService.create(body.email, body.password);
     }
 
-    @Serialize(UserDto) // Intercept
     @Get('/:id')
     findUser(@Param('id') id: string) {
         return this.userService.findOne(parseInt(id));
