@@ -14,5 +14,39 @@ export class UsersService {
 
         return this.repository.save(user); // Save a isntance of this User in Database
     }
+
+    async findOne(id: number) {
+        const user = await this.repository.findOne({ where: { id } });
+
+        return user;
+    }
+
+    async findAll() {
+        const users = await this.repository.find();
+
+        return users;
+    }
+
+    async editUser(id: number, attrs: Partial<User>) { // attrs: Atributtes with User body
+        const user = await this.repository.findOne({ where: { id } });
+
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        Object.assign(user, attrs); // Att object
+
+        return this.repository.save(user); // Save User
+    }
+
+    async deleteUser(id: number) {
+        const user = await this.repository.findOne({ where: { id } });
+
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        return this.repository.remove(user); // Remove User instance
+    }
     
 }
