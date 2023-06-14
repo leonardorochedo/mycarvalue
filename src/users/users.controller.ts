@@ -1,4 +1,15 @@
-import { Body, Controller, Post, Get, Patch, Delete, Param, Query } from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Post,
+    Get,
+    Patch,
+    Delete,
+    Param,
+    Query,
+    UseInterceptors,
+    ClassSerializerInterceptor
+} from '@nestjs/common';
 
 // Service
 import { UsersService } from './users.service';
@@ -16,6 +27,7 @@ export class UsersController {
         return this.userService.create(body.email, body.password);
     }
 
+    @UseInterceptors(ClassSerializerInterceptor) // Intercept password
     @Get('/:id')
     findUser(@Param('id') id: string) {
         return this.userService.findOne(parseInt(id));
