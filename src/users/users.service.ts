@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException} from '@nestjs/common';
 
 // TypeORM | Repository
 import { Repository } from 'typeorm';
@@ -18,6 +18,10 @@ export class UsersService {
     async findOne(id: number) {
         const user = await this.repository.findOne({ where: { id } });
 
+        if (!user) {
+            throw new NotFoundException('User not found');
+        }
+
         return user;
     }
 
@@ -31,7 +35,7 @@ export class UsersService {
         const user = await this.repository.findOne({ where: { id } });
 
         if (!user) {
-            throw new Error('User not found');
+            throw new NotFoundException('User not found');
         }
 
         Object.assign(user, attrs); // Att object
@@ -43,7 +47,7 @@ export class UsersService {
         const user = await this.repository.findOne({ where: { id } });
 
         if (!user) {
-            throw new Error('User not found');
+            throw new NotFoundException('User not found');
         }
 
         return this.repository.remove(user); // Remove User instance
