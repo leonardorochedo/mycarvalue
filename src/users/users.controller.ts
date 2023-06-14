@@ -18,16 +18,18 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { EditUserDto } from './dtos/edit-user.dto';
 
+import { SerializeInterceptor } from 'src/interceptors/serialize.interceptor';
+
 @Controller('auth')
 export class UsersController {
-    constructor(private userService: UsersService) {}
+    constructor(private userService: UsersService) {} // DI
 
     @Post('/singup')
     createUser(@Body() body: CreateUserDto) {
         return this.userService.create(body.email, body.password);
     }
 
-    @UseInterceptors(ClassSerializerInterceptor) // Intercept password
+    @UseInterceptors(SerializeInterceptor) // Intercept
     @Get('/:id')
     findUser(@Param('id') id: string) {
         return this.userService.findOne(parseInt(id));
