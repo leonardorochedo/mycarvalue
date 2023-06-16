@@ -7,6 +7,7 @@ import {
     Delete,
     Param,
     Session,
+    UseGuards
 } from '@nestjs/common';
 
 // Entities
@@ -24,9 +25,10 @@ import { UserDto } from './dtos/user.dto';
 // Interceptor | Decorator Function
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { CurrentUser } from './decorators/current-user.decorator';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @Controller('auth')
-@Serialize(UserDto) // Intercept Decorator
+@Serialize(UserDto) // Intercept Decorator to break password user in GET requests
 export class UsersController {
     constructor(
         private userService: UsersService,
@@ -34,6 +36,7 @@ export class UsersController {
     ) {} // DI
 
     @Get('/whoiam')
+    @UseGuards(AuthGuard) // if user not signin can't acces this route
     whoIAm(@CurrentUser() user: User) {
         return user;
     }
