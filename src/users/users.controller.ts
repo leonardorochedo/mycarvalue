@@ -6,9 +6,11 @@ import {
     Patch,
     Delete,
     Param,
-    Query,
-    Session
+    Session,
 } from '@nestjs/common';
+
+// Entities
+import { User } from './user.entity';
 
 // Services
 import { UsersService } from './users.service';
@@ -21,6 +23,7 @@ import { UserDto } from './dtos/user.dto';
 
 // Interceptor | Decorator Function
 import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { CurrentUser } from './decorators/current-user.decorator';
 
 @Controller('auth')
 @Serialize(UserDto) // Intercept Decorator
@@ -31,8 +34,8 @@ export class UsersController {
     ) {} // DI
 
     @Get('/whoiam')
-    whoAmI(@Session() session: any) {
-        return this.userService.findOne(session.userId);
+    whoIAm(@CurrentUser() user: User) {
+        return user;
     }
 
     @Post('/signup')
@@ -60,7 +63,7 @@ export class UsersController {
     }
 
     @Get()
-    findAllUsers(@Query('email') email: string) {
+    findAllUsers() {
         return this.userService.findAll();
     }
 
