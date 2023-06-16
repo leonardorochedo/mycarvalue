@@ -9,8 +9,9 @@ import {
     Query,
 } from '@nestjs/common';
 
-// Service
+// Services
 import { UsersService } from './users.service';
+import { AuthService } from './auth.service';
 
 // Dto's
 import { CreateUserDto } from './dtos/create-user.dto';
@@ -23,11 +24,14 @@ import { Serialize } from 'src/interceptors/serialize.interceptor';
 @Controller('auth')
 @Serialize(UserDto) // Intercept Decorator
 export class UsersController {
-    constructor(private userService: UsersService) {} // DI
+    constructor(
+        private userService: UsersService,
+        private authService: AuthService
+        ) {} // DI
 
     @Post('/singup')
     createUser(@Body() body: CreateUserDto) {
-        return this.userService.create(body.email, body.password);
+        return this.authService.singup(body.email, body.password);
     }
 
     @Get('/:id')

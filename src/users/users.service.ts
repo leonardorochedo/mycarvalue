@@ -31,6 +31,12 @@ export class UsersService {
         return users;
     }
 
+    async findEmail(email: string) {
+        const users = await this.repository.find({ where: { email } });
+
+        return users;
+    }
+
     async editUser(id: number, attrs: Partial<User>) { // attrs: Atributtes with User body
         const user = await this.repository.findOne({ where: { id } });
 
