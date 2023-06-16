@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { plainToClass } from 'class-transformer';
 
-// The DTO'S Should be a class
+// DTO'S Should be a class
 interface ClassConstructor {
     new (...args: any[]): {}
 }
