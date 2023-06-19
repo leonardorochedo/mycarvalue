@@ -2,15 +2,17 @@ import { Test } from "@nestjs/testing"
 import { AuthService } from "./auth.service"
 import { UsersService } from "./users.service";
 import { User } from "./user.entity";
+import { BadRequestException } from "@nestjs/common";
 
 // title test file
 describe('AuthService', () => {
     let service: AuthService; // describe scope
+    let fakeUsersService: Partial<UsersService>;
 
-    // befora all tests
+    // before all tests
     beforeEach(async () => {
         // craete a fake copy of the users service
-        const fakeUsersService: Partial<UsersService> = {
+        fakeUsersService = {
             // define here a methods used in tests down
             findAll: () => Promise.resolve([]),
             findEmail: (email: string) => Promise.resolve([]),
@@ -32,13 +34,12 @@ describe('AuthService', () => {
     })
 
     // tests
-
     it('can create an instance of auth service', async () => {
         expect(service).toBeDefined();
     })
 
     it('creates a new user with a salted and hashed password', async () => {
-        const user = await service.singup('asdf@asdf.com', 'asdf');
+        const user = await service.signup('asdf@asdf.com', 'asdf');
 
         // make sure this password is hashed
         expect(user.password).not.toEqual('asdf');
@@ -46,4 +47,10 @@ describe('AuthService', () => {
         expect(salt).toBeDefined();
         expect(hash).toBeDefined();
     })
+
+    it('throws an error if user signs up with email that is in use', async () => {
+        fakeUsersService.findEmail = () => Promise.resolve([{ id: 1, email: 'a', password: '1' } as User]);
+
+        await expect(service.signup('asdf@asdf.com', 'asdf')).rejects.toThrow(BadRequestException);
+    });
 })
