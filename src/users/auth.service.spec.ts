@@ -1,25 +1,37 @@
 import { Test } from "@nestjs/testing"
 import { AuthService } from "./auth.service"
 import { UsersService } from "./users.service";
+import { User } from "./user.entity";
 
-it('can create an instance of auth service', async () => {
-    // craete a fake copy of the users service
-    const fakeUsersService = {
-        find: () => Promise.resolve([]),
-        create: (email: string, password: string) => Promise.resolve({ id: 1, email, password })
-    }
+// title test file
+describe('AuthService', () => {
+    let service: AuthService; // describe scope
 
-    const module = await Test.createTestingModule({
-        providers: [
-            AuthService,
-            {
-                provide: UsersService,
-                useValue: fakeUsersService
-            }
-        ]
-    }).compile();
+    // befora all tests
+    beforeEach(async () => {
+        // craete a fake copy of the users service
+        const fakeUsersService: Partial<UsersService> = {
+            findAll: () => Promise.resolve([]),
+            create: (email: string, password: string) =>
+                Promise.resolve({ id: 1, email, password } as User) // trat this how user
+        }
 
-    const service = module.get(AuthService);
+        const module = await Test.createTestingModule({
+            providers: [
+                AuthService,
+                {
+                    provide: UsersService,
+                    useValue: fakeUsersService
+                }
+            ]
+        }).compile();
 
-    expect(service).toBeDefined();
+        service = module.get(AuthService);
+    })
+
+    // tests
+
+    it('can create an instance of auth service', async () => {
+        expect(service).toBeDefined();
+    })
 })
