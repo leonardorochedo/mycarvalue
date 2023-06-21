@@ -17,14 +17,34 @@ describe('Authentication System', () => {
   });
 
   it('/auth/signup (POST)', () => {
+    const email = 'asdf@asdf.com';
+
     return request(app.getHttpServer())
       .post('/auth/signup')
-      .send({ email: 'asdf@asdf.com', password: 'mypassword' })
+      .send({ email: email, password: 'mypassword' })
       .expect(201)
       .then((res) => {
         const { id, email } = res.body;
         expect(id).toBeDefined();
-        expect(email).toBeDefined();
+        expect(email).toEqual(email);
       })
   });
+
+  it('/auth/signup (POST) and /auth/whoiam (GET)', async () => {
+    const email = 'asdf2@asdf.com';
+
+    const res = await request(app.getHttpServer())
+        .post('/auth/signup')
+        .send({ email: email, password: 'mypassword' })
+        .expect(201)
+
+    const cookie = res.get('Set-Cookie');
+
+    const { body } = await request(app.getHttpServer())
+        .get('/auth/whoiam')
+        .set('Cookie', cookie)
+        .expect(200)
+    
+    expect(body.email).toEqual(email)
+  })
 });
