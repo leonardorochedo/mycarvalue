@@ -11,15 +11,30 @@ import { Report } from './reports/report.entity';
 
 import { APP_PIPE } from '@nestjs/core';
 
+import { ConfigModule, ConfigService } from '@nestjs/config';
+
 const cookieSession = require('cookie-session');
 
 @Module({
-  imports: [TypeOrmModule.forRoot({
-    type: 'sqlite',
-    database: 'db.sqlite',
-    entities: [User, Report],
-    synchronize: true // Only for development, realize a migration of your db automaticly
-  }), UsersModule, ReportsModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: `.env.${process.env.NODE_ENV}`
+    }),
+    TypeOrmModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => {
+        return {
+          type: 'sqlite',
+          database: config.get<string>('DB_NAME'), // get a name of db file to used
+          entities: [User, Report],
+          synchronize: true // Only for development, realize a migration of your db automaticly
+        }
+      }
+    }),
+    UsersModule,
+    ReportsModule
+  ],
   controllers: [AppController],
   providers: [
     AppService,
