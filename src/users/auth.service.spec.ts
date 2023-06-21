@@ -11,13 +11,20 @@ describe('AuthService', () => {
 
     // before all tests
     beforeEach(async () => {
+        // db of this file
+        const users: User[] = [];
         // craete a fake copy of the users service
         fakeUsersService = {
             // define here a methods used in tests down
-            findAll: () => Promise.resolve([]),
-            findEmail: (email: string) => Promise.resolve([]),
-            create: (email: string, password: string) =>
-                Promise.resolve({ id: 1, email, password } as User) // trat this how user
+            findEmail: (email: string) => {
+                const filteredUsers = users.filter(user => user.email === email);
+                return Promise.resolve(filteredUsers);
+            },
+            create: (email: string, password: string) => {
+                const user = ({ id: Math.floor(Math.random() * 99999), email, password } as User);
+                users.push(user);
+                return Promise.resolve(user);
+            }
         }
 
         const module = await Test.createTestingModule({
@@ -38,6 +45,7 @@ describe('AuthService', () => {
         expect(service).toBeDefined();
     })
 
+    // signup methods
     it('creates a new user with a salted and hashed password', async () => {
         const user = await service.signup('asdf@asdf.com', 'asdf');
 
@@ -55,6 +63,7 @@ describe('AuthService', () => {
         .rejects.toThrow(BadRequestException);
     });
 
+    // signin methods
     it('throws if signin is called with an unused email', async () => {
         await expect(service.signin('asdflkj@asdlfkj.com', 'passdflkj'),)
         .rejects.toThrow(NotFoundException);
@@ -66,4 +75,12 @@ describe('AuthService', () => {
         await expect(service.signin('laskdjf@alskdfj.com', 'passowrd'),)
         .rejects.toThrow(BadRequestException);
     });
+
+    it('return a user if corret data is provided', async () => {
+        await service.signup('asdf@asdf.com', 'mypassword');
+
+        const user = await service.signin('asdf@asdf.com', 'mypassword');
+
+        expect(user).toBeDefined();
+    })
 })
