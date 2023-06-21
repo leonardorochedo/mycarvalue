@@ -23,9 +23,9 @@ import { EditUserDto } from './dtos/edit-user.dto';
 import { UserDto } from './dtos/user.dto';
 
 // Interceptor | Decorator Function
-import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { Serialize } from '../interceptors/serialize.interceptor';
 import { CurrentUser } from './decorators/current-user.decorator';
-import { AuthGuard } from 'src/guards/auth.guard';
+import { AuthGuard } from '../guards/auth.guard';
 
 @Controller('auth')
 @Serialize(UserDto) // Intercept Decorator to break password user in GET requests
