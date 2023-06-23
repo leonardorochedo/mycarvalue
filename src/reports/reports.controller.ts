@@ -8,6 +8,8 @@ import { CreateReportDto } from './dtos/create-report.dto';
 
 // Guard's
 import { AuthGuard } from '../guards/auth.guard';
+import { CurrentUser } from '../users/decorators/current-user.decorator';
+import { User } from '../users/user.entity';
 
 @Controller('reports')
 export class ReportsController {
@@ -15,7 +17,7 @@ export class ReportsController {
 
     @Post('/create')
     @UseGuards(AuthGuard) // user should be logged
-    createReport(@Body() body: CreateReportDto) {
-        return this.reportsService.create(body);
+    createReport(@Body() body: CreateReportDto, @CurrentUser() user: User) {
+        return this.reportsService.create(body, user);
     }
 }
