@@ -7,7 +7,12 @@ import {
     UseGuards
 } from '@nestjs/common';
 
-// Service
+import { User } from '../users/user.entity';
+
+// Decorators
+import { CurrentUser } from '../users/decorators/current-user.decorator';
+
+// Services
 import { ReportsService } from './reports.service';
 
 // Dto's
@@ -17,8 +22,7 @@ import { ApproveReportDto } from './dtos/approve-report.dto';
 
 // Guard's
 import { AuthGuard } from '../guards/auth.guard';
-import { CurrentUser } from '../users/decorators/current-user.decorator';
-import { User } from '../users/user.entity';
+import { AdminGuard } from 'src/guards/admin.guard';
 
 // Serialize
 import { Serialize } from '../interceptors/serialize.interceptor';
@@ -35,6 +39,7 @@ export class ReportsController {
     }
 
     @Patch('/:id')
+    @UseGuards(AdminGuard) // only admin user can access
     approvedReport(@Param('id') id: string, @Body() body: ApproveReportDto) {
         return this.reportsService.changeApproval(parseInt(id), body.approved);
     }
