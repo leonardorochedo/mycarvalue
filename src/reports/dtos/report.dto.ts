@@ -5,6 +5,9 @@ export class ReportDto {
     id: number;
 
     @Expose()
+    approved: boolean;
+
+    @Expose()
     price: number;
 
     @Expose()
@@ -25,7 +28,7 @@ export class ReportDto {
     @Expose()
     mileage: number;
 
-    @Transform(({ obj }) => obj.user.id)
+    // @Transform(({ obj }) => obj.user.id)
     @Expose()
     userId: number;
 }
