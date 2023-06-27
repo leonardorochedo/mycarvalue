@@ -55,7 +55,7 @@ git clone https://github.com/leonardorochedo/mycarvalue.git
 3. Acesse o diretório do projeto:
 
 ```shell
-cd first-api-nestjs
+cd mycarvalue
 ```
 
 4. Instale as dependências do projeto:
