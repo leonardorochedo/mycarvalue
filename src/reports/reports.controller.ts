@@ -25,7 +25,7 @@ import { GetEstimateDto } from './dtos/get-estimate.dto';
 
 // Guard's
 import { AuthGuard } from '../guards/auth.guard';
-import { AdminGuard } from 'src/guards/admin.guard';
+import { AdminGuard } from '../guards/admin.guard';
 
 // Serialize
 import { Serialize } from '../interceptors/serialize.interceptor';

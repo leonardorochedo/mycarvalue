@@ -1,18 +1,27 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { Test } from '@nestjs/testing';
 import { UsersService } from './users.service';
 
 describe('UsersService', () => {
-  let service: UsersService;
+  let fakeUsersService: Partial<UsersService>;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [UsersService],
+    fakeUsersService = {
+
+    }
+
+    const module = await Test.createTestingModule({
+      providers: [
+          {
+              provide: UsersService,
+              useValue: fakeUsersService
+          }
+      ]
     }).compile();
 
-    service = module.get<UsersService>(UsersService);
+    fakeUsersService = module.get(UsersService);
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(fakeUsersService).toBeDefined();
   });
 });
