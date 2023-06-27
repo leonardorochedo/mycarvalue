@@ -1,73 +1,91 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+## My Car Value
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Aplicação que o usuário consegue abrir uma solicitação para ter uma estimativa baseado em nossa base de dados de qual seria o valor estimado do carro solicitado, baseado em valor, milhas percorridas, ano do veículo, marca, modelo entre outros paramêtros.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Projeto
 
-## Description
+Gostei muito de desenvolver este projeto mais robusto em NestJS e implementar testes unitários com Jest, foi de grande aprendizaddo. A aplicação está preparada também para ir para produção, porém não localizei uma ferramente gratuita para este fim no momento.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Achei muito bacana também como funciona o conceito de middlewares, interruptores, serialização e como agregam positivamente na estrutura do projeto.
 
-## Installation
+## Tecnologias utilizadas
 
-```bash
-$ npm install
+- NestJS: Framework em Node.js para construção de aplicativos escaláveis e eficientes.
+- TypeORM: 
+- Banco de Dados: SQLite, utilizado pelo TypeORM para armazenar os dados da aplicação.
+- Jest: Para testes unitários e também e2e (end-to-end).
+- Cookie-Session: Middleware para os endpoints da aplicação
+- Class-Validator: Definir regras de validação de forma declarativa utilizando decorators, o que tornou o código mais limpo e intuitivo.
+- Class-Transformer: Usado para consumir um dado x e manipula-lo.
+- Cross-Env: Manipulação de váriveis de ambiente via shell.
+
+## Endpoints da API
+
+A API possui os seguintes endpoints:
+
+### User
+
+- `GET /auth`: Retorna uma lista dos usuários cadastrados no sistema.
+- `GET /auth/:id`: Retorna o usuário com o ID especificado.
+- `GET /auth/whoiam`: Retorna o usuário que está autenticado no sistema.
+- `POST /auth/signup`: Cadastra um novo usuário.
+- `POST /auth/signin`: Loga o usuário na aplicação.
+- `POST /auth/signout`: Desloga o usuário da aplicação.
+- `PATCH /auth/:id`: Edita o usuário com o ID especificado.
+- `DELETE /auth/:id`: Deleta o usuário com o ID especificado.
+
+### Report
+
+- `POST /reports/create`: Cria uma solicitação (report) de veíuculo.
+- `PATCH /reports/:id`: Aprova ou nega a solicitação do veículo do usuário (apenas admin).
+- `GET /reports/estimate`: Retorna a estimativa do valor de seu veículo.
+
+## Executando o projeto localmente
+
+Para executar o projeto localmente em sua máquina, siga as etapas abaixo:
+
+1. Certifique-se de que o Node.js e o npm (gerenciador de pacotes do Node.js) estejam instalados em sua máquina.
+
+2. Clone este repositório em um diretório de sua escolha:
+
+```shell
+git clone https://github.com/leonardorochedo/mycarvalue.git
 ```
 
-## Running the app
+3. Acesse o diretório do projeto:
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```shell
+cd first-api-nestjs
 ```
 
-## Test
+4. Instale as dependências do projeto:
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+```shell
+npm install
 ```
 
-## Support
+5. Execute os testes unitários:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```shell
+npm run test
+```
 
-## Stay in touch
+6. Execute os testes (e2e):
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```shell
+npm run test:e2e
+```
 
-## License
+7. Execute o projeto:
 
-Nest is [MIT licensed](LICENSE).
+```shell
+npm run start
+```
+
+Após executar essas etapas, o servidor estará em execução localmente na URL *ttp://localhost:3000* e você poderá acessar os endpoints da API mencionados anteriormente.
+
+## Testes
+
+Foram implementados testes unitários e também e2e (end-to-end) para os endpoints da API, validando funcionalidades e camadas da aplicação como services e controllers.
+
+**Observação:** Certifique-se de ter o banco de dados SQLite configurado corretamente. Verifique a documentação do TypeORM para mais informações sobre como configurar o banco de dados.
