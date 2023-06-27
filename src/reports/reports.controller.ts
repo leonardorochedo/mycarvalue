@@ -2,8 +2,10 @@ import {
     Controller,
     Post,
     Patch,
+    Get,
     Body,
     Param,
+    Query,
     UseGuards
 } from '@nestjs/common';
 
@@ -19,6 +21,7 @@ import { ReportsService } from './reports.service';
 import { CreateReportDto } from './dtos/create-report.dto';
 import { ReportDto } from './dtos/report.dto';
 import { ApproveReportDto } from './dtos/approve-report.dto';
+import { GetEstimateDto } from './dtos/get-estimate.dto';
 
 // Guard's
 import { AuthGuard } from '../guards/auth.guard';
@@ -42,5 +45,10 @@ export class ReportsController {
     @UseGuards(AdminGuard) // only admin user can access
     approvedReport(@Param('id') id: string, @Body() body: ApproveReportDto) {
         return this.reportsService.changeApproval(parseInt(id), body.approved);
+    }
+
+    @Get('/estimate')
+    getEstimate(@Query() query: GetEstimateDto) {
+        return this.reportsService.createEstimate(query);
     }
 }
