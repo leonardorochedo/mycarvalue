@@ -6,6 +6,7 @@ import { ReportsModule } from './reports/reports.module';
 
 // Database
 import { TypeOrmModule } from '@nestjs/typeorm';
+import * as ormconfig from '../ormconfig';
 import { User } from './users/user.entity';
 import { Report } from './reports/report.entity';
 
@@ -21,17 +22,18 @@ const cookieSession = require('cookie-session');
       isGlobal: true,
       envFilePath: `.env.${process.env.NODE_ENV}`
     }),
-    TypeOrmModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => {
-        return {
-          type: 'sqlite',
-          database: config.get<string>('DB_NAME'), // get a name of db file to used
-          entities: [User, Report],
-          synchronize: true // Only for development, realize a migration of your db automaticly
-        }
-      }
-    }),
+    TypeOrmModule.forRoot(ormconfig),
+    // TypeOrmModule.forRootAsync({
+    //   inject: [ConfigService],
+    //   useFactory: (config: ConfigService) => {
+    //     return {
+    //       type: 'sqlite',
+    //       database: config.get<string>('DB_NAME'), // get a name of db file to used
+    //       entities: [User, Report],
+    //       synchronize: true // Only for development, realize a migration of your db automaticly
+    //     }
+    //   }
+    // }),
     UsersModule,
     ReportsModule
   ],
