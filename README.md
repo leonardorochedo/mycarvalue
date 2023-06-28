@@ -11,7 +11,7 @@ Achei muito bacana também como funciona o conceito de middlewares, interruptore
 ## Tecnologias utilizadas
 
 - NestJS: Framework em Node.js para construção de aplicativos escaláveis e eficientes.
-- TypeORM: 
+- TypeORM:
 - Banco de Dados: SQLite, utilizado pelo TypeORM para armazenar os dados da aplicação.
 - Jest: Para testes unitários e também e2e (end-to-end).
 - Cookie-Session: Middleware para os endpoints da aplicação
@@ -76,13 +76,19 @@ npm run test
 npm run test:e2e
 ```
 
-7. Execute o projeto:
+7. Realize a migration (DB):
+
+```shell
+npm run typeorm migration:run
+```
+
+8. Execute o projeto:
 
 ```shell
 npm run start
 ```
 
-Após executar essas etapas, o servidor estará em execução localmente na URL *ttp://localhost:3000* e você poderá acessar os endpoints da API mencionados anteriormente.
+Após executar essas etapas, o servidor estará em execução localmente na URL _ttp://localhost:3000_ e você poderá acessar os endpoints da API mencionados anteriormente.
 
 ## Testes
 
